@@ -4,7 +4,7 @@ import './App.css';
 import './vtree.css';
 
 const visualize = debounce((code, vt) => {
-  fetch("http://dorm.muller.nctu.me:5000/",
+  fetch("https://pi.tsengcy.nctu.me/api",
     { body: code, method: 'POST' })
     .then(res => res.json())
     .then(res => {
