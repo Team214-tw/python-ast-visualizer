@@ -1,8 +1,10 @@
 from flask import Flask, request
+from flask_cors import CORS
 import ast
 import json
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/*": {"origins": "https://python-ast.netlify.com"}})
 
 def classname(cls):
     return cls.__class__.__name__
@@ -34,7 +36,7 @@ def jsonify_ast(node, level=0):
     ret = { classname(node): fields }
     return ret
 
-@app.route('/', methods=['POST'])
+@app.route('/api', methods=['POST'])
 def ast2json():
     code = request.data
     tree = ast.parse(code)
