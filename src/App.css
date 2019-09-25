@@ -4,10 +4,8 @@
   display: flex;
 }
 
-.TextArea {
-  font-family: monospace;
+.Code {
   width: 50vw;
-  resize: none;
 }
 
 .Graph {

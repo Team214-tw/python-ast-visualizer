@@ -1,7 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import debounce from 'lodash/debounce';
+import AceEditor from 'react-ace';
 import './App.css';
 import './vtree.css';
+
+import 'brace/mode/python';
+import 'brace/theme/tomorrow';
+import 'brace/snippets/python';
+import 'brace/ext/language_tools';
 
 const visualize = debounce((code, vt) => {
   fetch("https://pi.tsengcy.nctu.me/api",
@@ -27,14 +33,33 @@ function App() {
     setVt(window.vtree(ref.current));
   }, [ref])
 
-  const handleCodeChange = e => {
-    setCode(e.target.value);
-    visualize(e.target.value, vt);
+  const handleCodeChange = val => {
+    setCode(val);
+    visualize(val, vt);
   }
 
   return (
     <div className="App">
-      <textarea className="TextArea" value={code} onChange={handleCodeChange} />
+      <div className="Code">
+        <AceEditor
+          mode="python"
+          theme="tomorrow"
+          onChange={handleCodeChange}
+          fontSize={14}
+          showPrintMargin={false}
+          showGutter={true}
+          highlightActiveLine={true}
+          value={code}
+          height="100%"
+          width="100%"
+          setOptions={{
+            enableBasicAutocompletion: true,
+            enableLiveAutocompletion: true,
+            enableSnippets: true,
+            showLineNumbers: true,
+            tabSize: 2,
+          }} />
+      </div>
       <div className="Graph" ref={ref} />
     </div>
   );
