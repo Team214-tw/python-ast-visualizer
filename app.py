@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import ast
 import json
 
@@ -13,8 +13,7 @@ def jsonify_ast(node, level=0):
         fields[k] = '...'
         v = getattr(node, k)
         if isinstance(v, ast.AST):
-            if v._fields:
-                fields[k] = jsonify_ast(v)
+            if v._fields: fields[k] = jsonify_ast(v)
             else:
                 fields[k] = classname(v)
 
@@ -35,10 +34,9 @@ def jsonify_ast(node, level=0):
     ret = { classname(node): fields }
     return ret
 
-@app.route('/')
+@app.route('/', methods=['POST'])
 def ast2json():
-    code = '''a + 3
-a + a + 3'''
+    code = request.data
     tree = ast.parse(code)
     data = jsonify_ast(tree)
     return data
