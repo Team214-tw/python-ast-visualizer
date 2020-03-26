@@ -34,9 +34,12 @@ def jsonify_ast(node, level=0):
     ret = { classname(node): fields }
     return ret
 
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
+
 @app.route('/<path:path>')
 def static_proxy(path):
-    print(path)
     return send_from_directory('build', path)
 
 
