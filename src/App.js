@@ -10,7 +10,7 @@ import 'brace/snippets/python';
 import 'brace/ext/language_tools';
 
 const visualize = debounce((code, vt) => {
-  fetch("https://pi.tsengcy.nctu.me/api",
+  fetch("/api",
     { body: code, method: 'POST' })
     .then(res => res.json())
     .then(res => {
